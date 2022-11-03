@@ -1,5 +1,3 @@
-console.log('inside js')
-
 const todo = {
     inputValue: '',
     items: [],
@@ -8,8 +6,30 @@ const todo = {
  * builds a checkbox for the items and adds it to list-container
  */
     addItem : () => {
-        const item = todo.inputValue
+        const item =  todo.inputValue
         todo.items.push(item)
+        todo.saveItem(item) 
+        todo.displayItem(item)
+    },
+    saveItem: async (itemName) => {
+        const response = await fetch('/item/create', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            }, 
+            body: JSON.stringify({
+                item: {
+                    name: itemName,
+                    done: false
+                }
+            })
+        })
+
+        if(response.status === 200) {
+            console.log('Item saved successfully')
+        }
+    },
+    displayItem: async (item) => {
         const inputid =  item.replace(' ', '-')
 
         const listContainer = document.getElementById('list-container')
@@ -53,9 +73,22 @@ const todo = {
         todo.inputValue = value
     },
 
+    getItems: async () => {
+        const response = await fetch('/items')
+
+        if(response.status === 200) {
+            const items = await response.json() 
+            console.log(items)
+            items.map((item) => {
+                todo.displayItem(item.item.name)
+            })
+        }
+    },
+
     init: () => {
         const input = document.getElementById('input')
         input.addEventListener('keyup', todo.handelType)
+        todo.getItems()
     }
 }
 
