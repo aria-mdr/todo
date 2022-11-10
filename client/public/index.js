@@ -73,7 +73,7 @@ const todo = {
         todo.inputValue = value
     },
 
-    getItems: async () => {
+    getAll: async () => {
         const response = await fetch('/items')
 
         if(response.status === 200) {
@@ -88,7 +88,7 @@ const todo = {
     init: () => {
         const input = document.getElementById('input')
         input.addEventListener('keyup', todo.handelType)
-        todo.getItems()
+        // todo.getAll()
     }
 }
 

@@ -8,6 +8,18 @@ const ItemSchema = new Schema({
     },
     done: Boolean
 });
+const ToDoSchema = new Schema({
+    item: ItemSchema,
+    subItems: [ItemSchema]
+})
+
+const ToDoModel = new mongoose.model('todo', ToDoSchema);
+
+module.exports = ToDoModel;
+
+
+
+
 /**
  * {
  *  name: 'Drop the kids off', 
@@ -41,11 +53,3 @@ const ItemSchema = new Schema({
  *  ]
  * }
  */
-const ToDoSchema = new Schema({
-    item: ItemSchema,
-    subItems: [ItemSchema]
-})
-
-const ToDoModel = new mongoose.model('todo', ToDoSchema);
-
-module.exports = ToDoModel;

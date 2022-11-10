@@ -1,13 +1,25 @@
 // bring in services and call service in the controleer
 const service = require('./service');
 const path = require('path');
-const indexController = (req, res) => {
-    res.sendFile(path.join(__dirname, '/../client/index.html'));
+
+const indexController = async (req, res) => {
+    try {
+        const items = await service.getAll()
+        res.render('index', {
+            layout: 'todo',
+            items 
+        })
+        return
+    } catch(error) {
+        console.log(error)
+        res.render('index')
+    }
+
 }
 
-const getItems = async (req, res) => {
+const getAll = async (req, res) => {
     try {
-        const items = await service.getItems()
+        const items = await service.getAll()
         res.status(200).json(items)
     } catch(error) {
         res.status(error.code).json({
@@ -16,7 +28,7 @@ const getItems = async (req, res) => {
     }
 }
 
-const getItem = async (req, res) => {
+const getOne = async (req, res) => {
     try {
         const itemName = req.params.itemName
         if(!itemName || itemName.length === 0) { 
@@ -25,7 +37,7 @@ const getItem = async (req, res) => {
                 message: 'Item name is required'
             }
         }
-        const item = await service.getItem(itemName)
+        const item = await service.getOne(itemName)
         res.status(200).json(item)
     } catch(error) {
         console.log(error)
@@ -35,7 +47,7 @@ const getItem = async (req, res) => {
     }
 }
 
-const createItem = async (req, res) => { 
+const create = async (req, res) => { 
     try {
         const newItem = req.body
         if(!newItem) { 
@@ -44,7 +56,7 @@ const createItem = async (req, res) => {
                 message: 'Item name is required'
             }
         }
-        const item = await service.createItem(newItem)
+        const item = await service.create(newItem)
         res.status(200).json(item)
     } catch(error) {
         res.status(error.code).json({
@@ -56,7 +68,7 @@ const createItem = async (req, res) => {
 
 module.exports = {
     indexController, 
-    getItems, 
-    getItem, 
-    createItem
+    getAll, 
+    getOne, 
+    create
 }

@@ -1,20 +1,19 @@
 /// services defined and exported
 const ToDoModel = require('./model')
 
-const createItem = async (item) => {
+const create = async (item) => {
     try {
         console.log(item)
         await ToDoModel.create(item)
     } catch (error) {
         throw {
             code: 401, 
-            message: 'Invalid Item',
-            mongoError: error
+            message: 'Invalid Item'
         }
     }
 }
 
-const getItem = async (itemName) => {``
+const getOne = async (itemName) => {``
     try {
         const item = await ToDoModel.findOne({
             name: itemName
@@ -33,10 +32,10 @@ const getItem = async (itemName) => {``
     }
 }
 
-const getItems = async () => {
+const getAll = async () => {
     try {
-        const items = await ToDoModel.find({})
-
+        const items = await ToDoModel.find({}).lean()
+        const documentItems = await ToDoModel.find({})
         if(!items || items.length === 0) { 
             throw ""
         }
@@ -51,7 +50,7 @@ const getItems = async () => {
 }
 
 module.exports = {
-    createItem, 
-    getItem, 
-    getItems,
+    create, 
+    getOne, 
+    getAll,
 }

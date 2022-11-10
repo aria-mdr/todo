@@ -1,9 +1,10 @@
-const {indexController, createItem, getItem, getItems} = require('./controller')
+const {indexController, create, getOne, getAll} = require('./controller')
 const {INDEX_ROUTE, CREATE_ITEM, GET_ITEM, GET_ITEMS} = require('./constants')
+const { authGaurd } = require('../auth/auth')
 
 module.exports = (app) => {
-    app.get(INDEX_ROUTE, indexController)
-    app.post(CREATE_ITEM, createItem)
-    app.get(GET_ITEMS, getItems)
-    app.get(GET_ITEM, getItem)
+    app.get(INDEX_ROUTE, authGaurd, indexController)
+    app.post(CREATE_ITEM, create)
+    app.get(GET_ITEMS, getAll)
+    app.get(GET_ITEM, getOne)
 }
