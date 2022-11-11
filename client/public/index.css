@@ -2,3 +2,13 @@
     margin-top: 50px;
 }
 
+#greeting{
+    display:inline-block;
+}
+
+.btn {
+    float: right;
+    height: 56px;
+    margin-bottom: 30px;
+}
+

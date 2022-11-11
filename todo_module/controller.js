@@ -1,13 +1,21 @@
 // bring in services and call service in the controleer
 const service = require('./service');
+const { getOneById } = require('../user_module/service')
 const path = require('path');
 
 const indexController = async (req, res) => {
     try {
-        const items = await service.getAll()
+        const user = await getOneById(req.userId)
+        const items = await service.getAll() 
+        res.cookie('homepage', 1)
+        res.cookie('homepage', 2)
+        res.cookie('homepage', 3)
+        res.cookie('homepage', 4)
+
         res.render('index', {
             layout: 'todo',
-            items 
+            items,
+            userName: user.email
         })
         return
     } catch(error) {

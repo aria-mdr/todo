@@ -4,4 +4,5 @@ module.exports = {
     GET_ALL: '/users',
     LOGIN: '/login',
     SIGNUP: '/signup',
+    SIGNOUT: '/signout'
 }

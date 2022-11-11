@@ -36,7 +36,7 @@ const authGaurd = async (req, res, next) => {
             throw {}
         }
         const data = await verifyToken(cookies.token)
-
+        console.log(data.userId)
         req.userId = data.userId
 
         next()

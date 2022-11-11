@@ -1,11 +1,11 @@
 /// services defined and exported
 const UserModel = require('./model')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const create = async (user) => {
     try {
         // TODO: encrypt user password and store it. 
-        const password = await bcrypt.hash(user.password, 10)
+        const password = await bcrypt.hashSync(user.password, 10)
         const userData = {
             email: user.email,
             password: password
@@ -20,10 +20,29 @@ const create = async (user) => {
     }
 }
 
-const getOne = async (email) => {``
+const getOne = async (email) => {
     try {
         const user = await UserModel.findOne({
             email: email
+        })
+
+        if(!user) {
+            throw ""
+        }
+
+        return user
+    } catch (error) {
+        throw {
+            code: 401, 
+            message: 'couldnt find user'
+        }
+    }
+}
+
+const getOneById = async (id) => {
+    try {
+        const user = await UserModel.findOne({
+            _id: id
         })
 
         if(!user) {
@@ -81,5 +100,6 @@ module.exports = {
     create, 
     getOne, 
     getAll,
-    login
+    login,
+    getOneById
 }

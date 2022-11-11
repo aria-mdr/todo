@@ -85,10 +85,31 @@ const todo = {
         }
     },
 
+    displayGreeting: () => {
+        const cookies = document.cookie.split(';');
+        cookies.map((cookie) => {
+            const name = cookie.split('=')[0]
+            const value = cookie.split('=')[1]
+            if(name.includes('userName')) {
+                const greeting = document.getElementById('greeting')
+                greeting.innerHTML = `Hello ${value.split('%40')[0]}`
+            }
+        })
+    },
+
+    signOut: async () => {
+        const response = await fetch('/signout')
+
+        if(response.status === 200) {
+            document.location = '/login'
+        }
+    },
+
     init: () => {
         const input = document.getElementById('input')
         input.addEventListener('keyup', todo.handelType)
         // todo.getAll()
+        // todo.displayGreeting()
     }
 }
 

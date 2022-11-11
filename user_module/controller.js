@@ -62,6 +62,7 @@ const signUp = (req, res) => {
 
 const loginPost = async (req, res) => {
     try {
+        console.log('logging user in')
         const userDetail = req.body
         if(!userDetail) {
             throw {
@@ -82,7 +83,7 @@ const loginPost = async (req, res) => {
         const token = await createToken(user.id)
         // TODO: generate a Auth token and add it to the cookie
         res.cookie('token', token)
-
+        res.cookie('userName', user.email)
         res.status(200).json({
             userId: user.id,
             token
@@ -128,6 +129,13 @@ const signUpPost = async (req, res) => {
     }
 }
 
+const signout = (req, res) => {
+    res.cookie('token', '')
+    res.status(200).send({
+        message: 'logged out sucessfully'
+    })
+}
+
 module.exports = {
     getAll, 
     getOne, 
@@ -135,5 +143,6 @@ module.exports = {
     login,
     signUp, 
     signUpPost, 
-    loginPost
+    loginPost,
+    signout
 }
