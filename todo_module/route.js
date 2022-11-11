@@ -4,7 +4,7 @@ const { authGaurd } = require('../auth/auth')
 
 module.exports = (app) => {
     app.get(INDEX_ROUTE, authGaurd, indexController)
-    app.post(CREATE_ITEM, create)
+    app.post(CREATE_ITEM, authGaurd, create)
     app.get(GET_ITEMS, getAll)
     app.get(GET_ITEM, getOne)
 }

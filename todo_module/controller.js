@@ -6,7 +6,7 @@ const path = require('path');
 const indexController = async (req, res) => {
     try {
         const user = await getOneById(req.userId)
-        const items = await service.getAll() 
+        const items = await service.getByUserId(req.userId) 
         res.cookie('homepage', 1)
         res.cookie('homepage', 2)
         res.cookie('homepage', 3)
@@ -64,7 +64,8 @@ const create = async (req, res) => {
                 message: 'Item name is required'
             }
         }
-        const item = await service.create(newItem)
+        console.log(req.userId)
+        const item = await service.create(newItem, req.userId)
         res.status(200).json(item)
     } catch(error) {
         res.status(error.code).json({

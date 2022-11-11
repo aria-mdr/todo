@@ -10,7 +10,8 @@ const ItemSchema = new Schema({
 });
 const ToDoSchema = new Schema({
     item: ItemSchema,
-    subItems: [ItemSchema]
+    subItems: [ItemSchema],
+    user_id:  mongoose.ObjectId
 })
 
 const ToDoModel = new mongoose.model('todo', ToDoSchema);
